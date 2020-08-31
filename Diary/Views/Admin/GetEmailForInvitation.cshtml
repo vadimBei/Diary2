@@ -1,0 +1,53 @@
+﻿@model Diary.Entities.DTOs.Invite.InviteCreateDTO
+
+@{
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/ckeditor/ckeditor.js"></script>
+
+<div class="content">
+	<div class="container-fluid">
+		<div class="row justify-content-center">
+			<div class="col">
+				<div class="card p-3">
+					<div class="card-header card-header-info mb-3">
+						<h4 class="card-title">Invite a new user</h4>
+					</div>
+					<div class="card-body">
+						<form enctype="multipart/form-data" method="post">
+							<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+							<div class="row">
+								<div class="col-5">
+									<div class="form-group">
+										<label class="bmd-label-floating">Email</label>
+										<input asp-for="EmailNewUser" class="form-control" maxlength="20"
+											   required />
+
+										<span asp-validation-for="EmailNewUser" class="text-danger"></span>
+									</div>
+								</div>
+							</div>
+
+							<div class="row mt-3">
+								<div class="col">
+									<div class="form-group">
+										<label class="bmd-label-floating mb-4">Message</label>
+										<textarea asp-for="Message" class="form-control" rows="3"
+												  maxlength="300" required>
+										</textarea>
+										<span asp-validation-for="Message" class="text-danger"></span>
+									</div>
+								</div>
+							</div>
+
+							<input type="submit" class="btn btn-info pull-right m-1" value="Invite" />
+							<div class="clearfix"></div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

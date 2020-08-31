@@ -1,0 +1,114 @@
+﻿@model Diary.Entities.DTOs.Account.UserRegisterDTO
+
+@{
+	ViewData["Title"] = "Sign Up";
+	Layout = null;
+}
+
+<!--     Fonts and icons     -->
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+<!-- CSS Files -->
+<link href="~/assets/css/material-dashboard.css" rel="stylesheet" />
+<!-- CSS Just for demo purpose, don't include it in your project -->
+<link href="~/assets/demo/demo.css" rel="stylesheet" />
+
+<body class="dark-edition">
+	<div class="content">
+		<div class="container-fluid">
+			<div class="row d-flex justify-content-end">
+				<div class="w-50 m-md-5">
+					<div class="col">
+						<div class="card">
+							<div class="card-header card-header-warning">
+								<h4 class="card-title">Sign Up</h4>
+								<p class="card-category">It’s quick and easy.</p>
+							</div>
+							<div class="card-body">
+								<form asp-action="Register" asp-controller="Account" method="post">
+									<div class="row">
+										<div class="col-md-3">
+											<div class="form-group">
+												<label class="bmd-label-floating">Username</label>
+												<input type="text" class="form-control" asp-for="UserName" required>
+												<span class="text-danger" asp-validation-for="UserName"></span>
+											</div>
+										</div>
+
+										<div class="col-md-4">
+											<div class="form-group">
+												<label class="bmd-label-floating">Email address</label>
+												<input type="email" class="form-control" asp-for="Email" required>
+												<span class="text-danger" asp-validation-for="Email"></span>
+											</div>
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="col-md-4">
+											<div class="form-group">
+												<label class="bmd-label-floating">Password</label>
+												<input class="form-control" type="password" asp-for="Password" required>
+												<span asp-validation-for="Password"></span>
+											</div>
+										</div>
+
+										<div class="col-md-4">
+											<div class="form-group">
+												<label class="bmd-label-floating">Confirm password</label>
+												<input class="form-control" type="password" asp-for="PasswordConfirm" required>
+												<span asp-validation-for="PasswordConfirm"></span>
+											</div>
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="col-6">
+											<div class="input-group-prepend captcha">
+												<img id="img-captcha" src="~/get-captcha-image" />
+											</div>
+										</div>
+
+										<div class="col-6">
+											<div class="form-group">
+												<label class="bmd-label-floating">Captcha code</label>
+											<input class="form-control" type="text" asp-for="Captcha"
+												   maxlength="4" autocomplete="off" />
+											</div>
+										</div>
+									</div>
+
+									<div class="small mt-2">
+										<a asp-action="Authenticate" asp-controller="Account">Log in</a>
+									</div>
+									<button type="submit" class="btn btn-warning pull-right">Sign up</button>
+									<div class="clearfix"></div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<!--   Core JS Files   -->
+<script src="~/assets/js/core/jquery.min.js"></script>
+<script src="~/assets/js/core/popper.min.js"></script>
+<script src="~/assets/js/core/bootstrap-material-design.min.js"></script>
+<script src="https://unpkg.com/default-passive-events"></script>
+<script src="~/assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+<!-- Place this tag in your head or just before your close body tag. -->
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+<!-- Chartist JS -->
+<script src="~/assets/js/plugins/chartist.min.js"></script>
+<!--  Notifications Plugin    -->
+<script src="~/assets/js/plugins/bootstrap-notify.js"></script>
+<!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
+<script src="~/assets/js/material-dashboard.js?v=2.1.0"></script>
+<!-- Material Dashboard DEMO methods, don't include it in your project! -->
+<script src="~/assets/demo/demo.js"></script>
+<script src="~/js/site.js"></script>

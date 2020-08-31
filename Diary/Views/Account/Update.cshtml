@@ -1,0 +1,100 @@
+﻿@model Diary.Entities.DTOs.Account.UserUpdateDTO
+
+@{
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-8">
+				<div class="card">
+					<div class="card-header card-header-warning">
+						<h4 class="card-title">Edit Profile</h4>
+						<p class="card-category">Complete your profile</p>
+					</div>
+					<div class="card-body">
+						<form asp-action="Update" asp-controller="Account" asp-route-id="@Model.Id" enctype="multipart/form-data">
+							<div class="row">
+								<div class="col-md-3">
+									<div class="form-group">
+										<label class="bmd-label-floating">Username</label>
+										<input type="text" class="form-control" asp-for="UserName" required>
+										<span asp-validation-for="UserName"></span>
+									</div>
+								</div>
+								<div class="col-md-4">
+									<div class="form-group">
+										<label class="bmd-label-floating">Email address</label>
+										<input type="email" class="form-control" asp-for="Email" required>
+										<span asp-validation-for="Email"></span>
+									</div>
+								</div>
+							</div>
+
+
+
+
+							@if (User.IsInRole("Admin"))
+							{<div class="form-group">
+									<div class="row">
+										<div class="col-2">
+											<label class="control-label">Доступні ролі</label>
+										</div>
+										<div class="col">
+											@foreach (var role in Model.AllRoles)
+											{
+												<div class="form-check d-inline-block mr-5">
+													<label class="form-check-label">
+														<input class="form-check-input" name="roles" type="checkbox" value="@role.Name" onclick="onlyOne(this)"
+															   @(Model.RolesInCurrentUser.Contains(role.Name) ? "checked=\"checked\"" : "")>@role.Name
+															<span class="form-check-sign">
+																<span class="check"></span>
+															</span>
+														</label>
+													</div>
+												}
+										</div>
+									</div>
+								</div>
+							}
+							<button type="submit" class="btn btn-warning pull-right">Update Profile</button>
+							<div class="clearfix"></div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="card card-profile">
+					<div class="card-avatar">
+						<img src="~/assets/img/faces/card-profile1-square.jpg" />
+					</div>
+					<div class="card-body">
+						<h6 class="card-title">@Model.UserName</h6>
+						<h4 class="card-category">@Model.Email</h4>
+						<h4 class="card-category">
+							@foreach (var role in Model.RolesInCurrentUser)
+							{
+								@role
+							}
+						</h4>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				@await Html.PartialAsync("ChangePassword", new Diary.Entities.DTOs.Account.UserChangePasswordDTO())
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	function onlyOne(checkbox) {
+		var checkboxes = document.getElementsByName('roles')
+		checkboxes.forEach((item) => {
+			if (item !== checkbox) item.checked = false
+		})
+	}
+</script>

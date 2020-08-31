@@ -1,0 +1,55 @@
+﻿@model Diary.Entities.DTOs.Record.RecordCreateDTO
+
+@{
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content">
+	<div class="container-fluid">
+		<div class="row justify-content-center">
+			<div class="col">
+				<div class="card p-3">
+					<div class="card-header card-header-info">
+						<h4 class="card-title">Create post</h4>
+					</div>
+					<div class="card-body">
+						<form enctype="multipart/form-data" method="post">
+							<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+							<div class="form-group">
+								<label class="bmd-label-floating">Title</label>
+								<input asp-for="Name" class="form-control" maxlength="50" required />
+								<span asp-validation-for="Name" class="text-danger"></span>
+							</div>
+
+							<div class="row mt-3">
+								<div class="col">
+									<div class="form-group">
+										<label class="bmd-label-floating mb-4">Notes</label>
+										<textarea asp-for="Content" class="form-control" rows="5" maxlength="500"
+												  required>
+										</textarea>
+										<span asp-validation-for="Content" class="text-danger"></span>
+									</div>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col">
+									<div class="mt-2">
+										<input type="file" asp-for="NewFiles" accept="image/*" multiple /><br />
+										<span asp-validation-for="NewFiles" class="text-danger"></span>
+									</div>
+								</div>
+							</div>
+
+							<input type="submit" class="btn btn-info pull-right m-1" value="Create" />
+
+							<div class="clearfix"></div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
