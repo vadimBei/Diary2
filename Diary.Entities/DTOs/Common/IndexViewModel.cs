@@ -12,5 +12,7 @@ namespace Diary.Entities.DTOs.Common
 		public PagingModel PagingModel { get; set; }
 
 		public SearchModel SearchModel { get; set; }
+
+		public bool DisplayPagination { get; set; }
 	}
 }

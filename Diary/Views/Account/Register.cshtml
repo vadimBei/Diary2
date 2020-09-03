@@ -27,7 +27,7 @@
 							<div class="card-body">
 								<form asp-action="Register" asp-controller="Account" method="post">
 									<div class="row">
-										<div class="col-md-3">
+										<div class="col-4">
 											<div class="form-group">
 												<label class="bmd-label-floating">Username</label>
 												<input type="text" class="form-control" asp-for="UserName" required>
@@ -35,7 +35,7 @@
 											</div>
 										</div>
 
-										<div class="col-md-4">
+										<div class="col-4">
 											<div class="form-group">
 												<label class="bmd-label-floating">Email address</label>
 												<input type="email" class="form-control" asp-for="Email" required>
@@ -45,7 +45,7 @@
 									</div>
 
 									<div class="row">
-										<div class="col-md-4">
+										<div class="col-4">
 											<div class="form-group">
 												<label class="bmd-label-floating">Password</label>
 												<input class="form-control" type="password" asp-for="Password" required>
@@ -63,17 +63,19 @@
 									</div>
 
 									<div class="row">
-										<div class="col-6">
+										<div class="col-2">
 											<div class="input-group-prepend captcha">
 												<img id="img-captcha" src="~/get-captcha-image" />
 											</div>
 										</div>
+									</div>
 
-										<div class="col-6">
+									<div class="row">
+										<div class="col-4">
 											<div class="form-group">
 												<label class="bmd-label-floating">Captcha code</label>
-											<input class="form-control" type="text" asp-for="Captcha"
-												   maxlength="4" autocomplete="off" />
+												<input class="form-control" type="text" asp-for="Captcha"
+													   maxlength="4" autocomplete="off" />
 											</div>
 										</div>
 									</div>

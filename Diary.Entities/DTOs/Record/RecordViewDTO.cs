@@ -24,5 +24,7 @@ namespace Diary.Entities.DTOs.Record
 		public byte[] IvKey { get; set; }
 
 		public List<UploadedFileViewDTO> UploadedFileViewDTOs { get; set; }
+
+		public bool AbilityToRemove { get; set; }
 	}
 }

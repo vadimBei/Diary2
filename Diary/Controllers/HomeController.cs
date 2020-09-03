@@ -55,8 +55,16 @@ namespace Diary.Controllers
 					decriptedText = decriptedText.Substring(0, 200);
 				}
 
+
 				var decryptedRecord = _mapper.Map<RecordViewDTO>(record);
 				decryptedRecord.DecryptedText = decriptedText;
+
+				System.TimeSpan timeSpan = decryptedRecord.Created.Subtract(DateTime.Now);
+
+				if (timeSpan.Days > 2)
+					decryptedRecord.AbilityToRemove = false;
+				else
+					decryptedRecord.AbilityToRemove = true;
 
 				decryptedRecords.Add(decryptedRecord);
 			}
@@ -65,6 +73,9 @@ namespace Diary.Controllers
 			if (!string.IsNullOrEmpty(searchString))
 			{
 				decryptedRecords = decryptedRecords.Where(r => r.DecryptedText.Contains(searchString, StringComparison.OrdinalIgnoreCase)).ToList();
+
+				if (decryptedRecords.Count == 0)
+					return PartialView("NoResults");
 			}
 
 			//number records on page
@@ -76,12 +87,18 @@ namespace Diary.Controllers
 			PagingModel pagingModel = new PagingModel(count, page, pageSize);
 
 
+
 			IndexViewModel indexViewModel = new IndexViewModel
 			{
 				PagingModel = pagingModel,
 				RecordViewDTOs = listToDisplay,
 				SearchModel = search
 			};
+
+			if (listToDisplay.Count() == 0)
+				indexViewModel.DisplayPagination = false;
+			else
+				indexViewModel.DisplayPagination = true;
 
 			return View(indexViewModel);
 		}
