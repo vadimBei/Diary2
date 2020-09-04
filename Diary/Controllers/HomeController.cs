@@ -59,9 +59,14 @@ namespace Diary.Controllers
 				var decryptedRecord = _mapper.Map<RecordViewDTO>(record);
 				decryptedRecord.DecryptedText = decriptedText;
 
-				System.TimeSpan timeSpan = decryptedRecord.Created.Subtract(DateTime.Now);
+				// Checking if a record can be deleted
+				DateTime today = DateTime.Now;
 
-				if (timeSpan.Days > 2)
+				System.TimeSpan timeSpan =	today.Subtract(decryptedRecord.Created);
+
+				var days = timeSpan.Days;
+
+				if (days > 2)
 					decryptedRecord.AbilityToRemove = false;
 				else
 					decryptedRecord.AbilityToRemove = true;
@@ -85,8 +90,6 @@ namespace Diary.Controllers
 			var listToDisplay = decryptedRecords.Skip((page - 1) * pageSize).Take(pageSize).ToList();
 
 			PagingModel pagingModel = new PagingModel(count, page, pageSize);
-
-
 
 			IndexViewModel indexViewModel = new IndexViewModel
 			{
