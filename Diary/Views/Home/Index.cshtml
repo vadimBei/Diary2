@@ -10,11 +10,15 @@
 	</div>
 </div>
 
-@if (Model.DisplayPagination)
-{
-	var prevDisabled = !Model.PagingModel.HasPreviousPage ? "disabled" : "";
-	var nextDisabled = !Model.PagingModel.HasNextPage ? "disabled" : "";
+<div class="row align-content-end">
+	<div class="col">
+		@if (Model.DisplayPagination)
+		{
+			var prevDisabled = !Model.PagingModel.HasPreviousPage ? "disabled" : "";
+			var nextDisabled = !Model.PagingModel.HasNextPage ? "disabled" : "";
 
-	<a asp-action="Index" asp-route-page="@(Model.PagingModel.PageNumber - 1)" class="btn btn-default @prevDisabled">Назад</a>
-	<a asp-action="Index" asp-route-page="@(Model.PagingModel.PageNumber + 1)" class="btn btn-default @nextDisabled">Вперед</a>
-}
+			<a asp-action="Index" asp-route-page="@(Model.PagingModel.PageNumber - 1)" class="btn btn-default @prevDisabled">Назад</a>
+			<a asp-action="Index" asp-route-page="@(Model.PagingModel.PageNumber + 1)" class="btn btn-default @nextDisabled">Вперед</a>
+		}
+	</div>
+</div>

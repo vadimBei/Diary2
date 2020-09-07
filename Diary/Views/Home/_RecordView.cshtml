@@ -37,12 +37,32 @@
 							<a asp-action="Update" asp-controller="Record" asp-route-id="@record.Id">
 								<div class="row mt-3 mb-2">
 									<div class="col-md-12">
-										<div class="form-group">
+										<div class="form-group ml-2">
 											<p>@record.DecryptedText</p>
 										</div>
 									</div>
 								</div>
 							</a>
+							<div class="px-2">
+								<hr class="bg-warning" />
+							</div>
+						</div>
+						
+						<div class="card-footer mt-0">
+							<div class="text-muted">
+								<div class="row">
+									<div class="col ml-5">
+										<small>Modified: @record.Modified</small>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col ml-5">
+										<small>Created: @record.Created</small>
+									</div>
+								</div>
+
+							</div>
 						</div>
 					</div>
 				</div>
