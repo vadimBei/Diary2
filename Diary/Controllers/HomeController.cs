@@ -17,17 +17,20 @@ namespace Diary.Controllers
 {
 	public class HomeController : Controller
 	{
+		private readonly ICheckingAbilityToRemove _checkingAbilityToRemove;
 		private readonly IAesCryptoProviderService _aesCryptoProvider;
 		private readonly UserManager<User> _userManager;
 		private readonly ISearchService _searchService;
 		private readonly IMapper _mapper;
 
 		public HomeController(
+			ICheckingAbilityToRemove checkingAbilityToRemove,
 			IAesCryptoProviderService aesCryptoProvider,
 			UserManager<User> userManager,
 			ISearchService searchService,
 			IMapper mapper)
 		{
+			_checkingAbilityToRemove = checkingAbilityToRemove;
 			_aesCryptoProvider = aesCryptoProvider;
 			_searchService = searchService;
 			_userManager = userManager;
@@ -59,17 +62,7 @@ namespace Diary.Controllers
 				var decryptedRecord = _mapper.Map<RecordViewDTO>(record);
 				decryptedRecord.DecryptedText = decriptedText;
 
-				// Checking if a record can be deleted
-				DateTime today = DateTime.Now;
-
-				System.TimeSpan timeSpan =	today.Subtract(decryptedRecord.Created);
-
-				var days = timeSpan.Days;
-
-				if (days > 2)
-					decryptedRecord.AbilityToRemove = false;
-				else
-					decryptedRecord.AbilityToRemove = true;
+				decryptedRecord.AbilityToRemove = _checkingAbilityToRemove.Check(record.Created);
 
 				decryptedRecords.Add(decryptedRecord);
 			}

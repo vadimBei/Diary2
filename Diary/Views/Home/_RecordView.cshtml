@@ -17,7 +17,7 @@
 									</a>
 								</div>
 
-								@if (record.AbilityToRemove == true)
+								@if (record.AbilityToRemove)
 								{
 									<div class="col-1 my-auto">
 										<form asp-action="Delete" asp-controller="Record" asp-route-id="@record.Id"

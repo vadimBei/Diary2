@@ -22,6 +22,7 @@ namespace Diary.Extensions
 			services.AddScoped<IUserService, UserService>();
 			services.AddScoped<IUploadedFileService, UploadedFileService>();
 			services.AddScoped<ISearchService, SearchService>();
+			services.AddScoped<ICheckingAbilityToRemove, CheckingAbilityToRemove>();
 		}
 
 	}

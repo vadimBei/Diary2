@@ -25,5 +25,7 @@ namespace Diary.Entities.DTOs.Record
 
 		public IFormFileCollection NewFiles { get; set; }
 
+		public bool AbilityToRemove { get; set; }
+
 	}
 }

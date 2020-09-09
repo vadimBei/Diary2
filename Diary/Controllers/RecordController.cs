@@ -22,6 +22,7 @@ namespace Diary.Controllers
 	[Authorize]
 	public class RecordController : Controller
 	{
+		private readonly ICheckingAbilityToRemove _checkingAbilityToRemove;
 		private readonly IAesCryptoProviderService _aesCryptoProvider;
 		private readonly IUploadedFileService _uploadedFileService;
 		private readonly IWebHostEnvironment _webHostEnvironment;
@@ -30,6 +31,7 @@ namespace Diary.Controllers
 		private readonly IMapper _mapper;
 
 		public RecordController(
+			ICheckingAbilityToRemove checkingAbilityToRemove,
 			IAesCryptoProviderService aesCryptoProvider,
 			IUploadedFileService uploadedFileService,
 			IWebHostEnvironment webHostEnvironment,
@@ -38,6 +40,7 @@ namespace Diary.Controllers
 			IMapper mapper
 			)
 		{
+			_checkingAbilityToRemove = checkingAbilityToRemove;
 			_uploadedFileService = uploadedFileService;
 			_webHostEnvironment = webHostEnvironment;
 			_aesCryptoProvider = aesCryptoProvider;
@@ -116,6 +119,8 @@ namespace Diary.Controllers
 			RecordUpdateDTO recordViewDTO = _mapper.Map<RecordUpdateDTO>(record);
 
 			recordViewDTO.DecryptedText = _aesCryptoProvider.DecryptValue(record.Text, user.CryptoKey, record.IvKey);
+
+			recordViewDTO.AbilityToRemove = _checkingAbilityToRemove.Check(record.Created);
 
 			return View(recordViewDTO);
 		}
