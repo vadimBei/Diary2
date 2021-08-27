@@ -1,42 +1,58 @@
-﻿using Common.System.Infrastructure.Repositories;
-using Common.System.Services;
+﻿using Microsoft.EntityFrameworkCore;
+using Records.Core.Application.Common.Dtos;
 using Records.Core.Application.Common.Interfaces;
 using Records.Core.Domain.Entities;
-using Records.Core.Infrastructure;
 using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Records.Core.Application.Common.Services
 {
-    public class RecordService : BaseService<Record>, IRecordService
+    public class RecordService : IRecordService
     {
-        private Repository<Record> _repository;
+        private readonly IApplicationDbContext _dbContext;
 
-        public RecordService(ApplicationDbContext context)
-            : base(context)
+        public RecordService(IApplicationDbContext dbContext)
         {
-            _repository = new Repository<Record>(context);
+            _dbContext = dbContext;
         }
 
-        public async Task<IEnumerable<Record>> GetAllByUserIdAsync(Guid userId)
+        public async Task<Record> CreateAsync(RecordToCreateDto recordDto, CancellationToken cancellationToken)
         {
-            //var records = await _repository.FindByConditionAsync(u => u.UserId == userId);
-            //return records.OrderByDescending(d => d.Modified).ToList();
-            return (await _repository.FindByConditionAsync(u => u.UserId == userId));
+            var record = new Record
+            {
+                DateOfCreation = DateTime.Now,
+                DateOfModification = DateTime.Now,
+                IvKey = recordDto.IvKey,
+                Name = recordDto.Name,
+                Text = recordDto.EncryptedContent,
+                UserId = recordDto.UserId
+            };
+
+            _dbContext.Records.Add(record);
+
+            await _dbContext.SaveChangesAsync(cancellationToken);
+
+            return record;
         }
 
-        public override async Task<Record> GetByIdAsync(Guid id)
+        public async Task<Record> GetByIdAsync(Guid id, CancellationToken cancellationToken)
         {
-            return (await _repository.FindByAsync(u => u.Id == id
-            //, f => f.UploadedFiles
-            )).FirstOrDefault();
+            return await _dbContext.Records.FirstOrDefaultAsync(r => r.Id == id, cancellationToken);
         }
 
-        public async Task UpdateEntryAsync(Record record)
+        public async Task<Record> UpdateAsync(RecordToUpdateDto recordDto, CancellationToken cancellationToken)
         {
-            await _repository.UpdateEntryAsync(record, r => r.Name, r => r.Text);
+            var record = await GetByIdAsync(recordDto.Id, cancellationToken);
+
+            record.DateOfModification = DateTime.Now;
+            record.Name = recordDto.Name;
+            record.Text = recordDto.EncryptedContent;
+            record.IvKey = recordDto.IvKey;
+
+            await _dbContext.SaveChangesAsync(cancellationToken);
+
+            return record;
         }
     }
 }

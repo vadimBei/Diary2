@@ -15,6 +15,8 @@ namespace Records.Core.Application.Common.ViewModels
 
         public Guid UserId { get; set; }
 
-        public byte[] IvKey { get; set; }
+        public DateTime DateOfCreation { get; set; }
+
+        public DateTime? DateOfModification { get; set; }
     }
 }

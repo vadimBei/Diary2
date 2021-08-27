@@ -8,15 +8,15 @@ using Records.Core.Domain.ValueObjects;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Records.Core.Application.Records.Commands.CreateRecord
+namespace Records.Core.Application.Records.Commands.UpdateRecord
 {
-    public class CreateRecordCommandHandler : IRequestHandler<CreateRecordCommand, RecordVM>
+    public class UpdateRecordCommandHandler : IRequestHandler<UpdateRecordCommand, RecordVM>
     {
         private readonly IMapper _mapper;
         private readonly IRecordService _recordService;
         private readonly IAesCryptoProviderService _aesCryptoProviderService;
 
-        public CreateRecordCommandHandler(
+        public UpdateRecordCommandHandler(
             IMapper mapper,
             IRecordService recordService,
             IAesCryptoProviderService aesCryptoProviderService)
@@ -26,22 +26,19 @@ namespace Records.Core.Application.Records.Commands.CreateRecord
             _aesCryptoProviderService = aesCryptoProviderService;
         }
 
-        public async Task<RecordVM> Handle(CreateRecordCommand request, CancellationToken cancellationToken)
+        public async Task<RecordVM> Handle(UpdateRecordCommand request, CancellationToken cancellationToken)
         {
-            //string currentUserName = HttpContext.User.Identity.Name;
-            //User user = await _userManager.FindByNameAsync(currentUserName);
-            var user = new User();
             var ivKey = _aesCryptoProviderService.GenerateIV();
-            //var encryptedContent = _aesCryptoProviderService.EncryptValue(request.Content, user.CryptoKey, ivKey);
-            var recordDto = new RecordToCreateDto
+
+            var recordDto = new RecordToUpdateDto
             {
-                IvKey = ivKey,
+                Id = request.Id,
+                //EncryptedContent = _aesCryptoProviderService.EncryptValue(request.Content, user.CryptoKey, ivKey),
                 Name = request.Name,
-                UserId = user.UserId,
+                IvKey = ivKey
             };
 
-            var record = await _recordService.CreateAsync(recordDto, cancellationToken);
-
+            var record = await _recordService.UpdateAsync(recordDto, cancellationToken);
             return _mapper.Map<RecordVM>(record);
         }
     }

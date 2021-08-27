@@ -2,9 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Records.Core.Application.Common.ViewModels;
 using Records.Core.Application.Records.Commands.CreateRecord;
+using Records.Core.Application.Records.Commands.UpdateRecord;
+using Records.Core.Application.Records.Queries.GetRecordById;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Records.API.Controllers
@@ -22,6 +22,20 @@ namespace Records.API.Controllers
         [Route("create")]
         [HttpPost]
         public async Task<RecordVM> CreateRecord(CreateRecordCommand command)
+        {
+            return await _mediator.Send(command);
+        }
+
+        [Route("getById/{recordId}")]
+        [HttpGet]
+        public async Task<RecordVM> GetRecordById(Guid recordId)
+        {
+            return await _mediator.Send(new GetRecordByIdQuery(recordId));
+        }
+
+        [Route("update")]
+        [HttpPost]
+        public async Task<RecordVM> Update(UpdateRecordCommand command)
         {
             return await _mediator.Send(command);
         }
