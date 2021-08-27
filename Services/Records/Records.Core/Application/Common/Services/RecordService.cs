@@ -22,7 +22,6 @@ namespace Records.Core.Application.Common.Services
             var record = new Record
             {
                 DateOfCreation = DateTime.Now,
-                DateOfModification = DateTime.Now,
                 IvKey = recordDto.IvKey,
                 Name = recordDto.Name,
                 Text = recordDto.EncryptedContent,
@@ -53,6 +52,18 @@ namespace Records.Core.Application.Common.Services
             await _dbContext.SaveChangesAsync(cancellationToken);
 
             return record;
+        }
+
+        public async Task DeleteAsync(Guid id, CancellationToken cancellationToken)
+        {
+            var record = await GetByIdAsync(id, cancellationToken);
+
+            if (record != null)
+            {
+                record.IsDeleted = true;
+
+                await _dbContext.SaveChangesAsync(cancellationToken);
+            }
         }
     }
 }

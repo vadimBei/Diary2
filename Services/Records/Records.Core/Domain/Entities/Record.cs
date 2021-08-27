@@ -14,5 +14,7 @@ namespace Records.Core.Domain.Entities
         public Guid UserId { get; set; }
 
         public byte[] IvKey { get; set; }
+
+        public bool IsDeleted { get; set; }
     }
 }

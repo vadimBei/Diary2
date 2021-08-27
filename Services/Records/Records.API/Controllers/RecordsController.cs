@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Records.Core.Application.Common.ViewModels;
 using Records.Core.Application.Records.Commands.CreateRecord;
+using Records.Core.Application.Records.Commands.DeleteRecord;
 using Records.Core.Application.Records.Commands.UpdateRecord;
 using Records.Core.Application.Records.Queries.GetRecordById;
 using System;
@@ -19,25 +20,36 @@ namespace Records.API.Controllers
             _mediator = mediator;
         }
 
-        [Route("create")]
-        [HttpPost]
+        [HttpPost("create")]
         public async Task<RecordVM> CreateRecord(CreateRecordCommand command)
         {
             return await _mediator.Send(command);
         }
 
-        [Route("getById/{recordId}")]
-        [HttpGet]
-        public async Task<RecordVM> GetRecordById(Guid recordId)
+        [HttpGet("getById/{id}")]
+        public async Task<RecordVM> GetRecordById(Guid id)
         {
-            return await _mediator.Send(new GetRecordByIdQuery(recordId));
+            return await _mediator.Send(new GetRecordByIdQuery
+            {
+                RecordId = id
+            });
         }
 
-        [Route("update")]
-        [HttpPost]
+        [HttpPut("update")]
         public async Task<RecordVM> Update(UpdateRecordCommand command)
         {
             return await _mediator.Send(command);
+        }
+
+        [HttpDelete("delete/{id}")]
+        public async Task<ActionResult> Delete(Guid id)
+        {
+            await _mediator.Send(new DeleteRecordCommand
+            {
+                Id = id
+            });
+
+            return NoContent();
         }
     }
 }

@@ -12,5 +12,6 @@ namespace Records.Core.Application.Common.Interfaces
 		Task<Record> GetByIdAsync(Guid id, CancellationToken cancellationToken);
 		Task<Record> CreateAsync(RecordToCreateDto recordDto, CancellationToken cancellationToken);
 		Task<Record> UpdateAsync(RecordToUpdateDto recordDto, CancellationToken cancellationToken);
+		Task DeleteAsync(Guid id, CancellationToken cancellationToken);
 	}
 }

@@ -7,10 +7,5 @@ namespace Records.Core.Application.Records.Queries.GetRecordById
     public class GetRecordByIdQuery : IRequest<RecordVM>
     {
         public Guid RecordId { get; set; }
-
-        public GetRecordByIdQuery(Guid recordId)
-        {
-            RecordId = recordId;
-        }
     }
 }
