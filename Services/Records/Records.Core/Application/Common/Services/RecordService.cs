@@ -3,6 +3,8 @@ using Records.Core.Application.Common.Dtos;
 using Records.Core.Application.Common.Interfaces;
 using Records.Core.Domain.Entities;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -64,6 +66,16 @@ namespace Records.Core.Application.Common.Services
 
                 await _dbContext.SaveChangesAsync(cancellationToken);
             }
+        }
+
+        public async Task<List<Record>> GetAllByUserIdAsync(Guid userId)
+        {
+            var usersRecords = await _dbContext.Records.Where(r => r.UserId == userId)
+                                                       .AsQueryable()
+                                                       .AsNoTracking()
+                                                       .ToListAsync();
+
+            return usersRecords;
         }
     }
 }

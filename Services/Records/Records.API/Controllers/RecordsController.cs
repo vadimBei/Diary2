@@ -5,7 +5,9 @@ using Records.Core.Application.Records.Commands.CreateRecord;
 using Records.Core.Application.Records.Commands.DeleteRecord;
 using Records.Core.Application.Records.Commands.UpdateRecord;
 using Records.Core.Application.Records.Queries.GetRecordById;
+using Records.Core.Application.Records.Queries.GetUserRecords;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Records.API.Controllers
@@ -50,6 +52,15 @@ namespace Records.API.Controllers
             });
 
             return NoContent();
+        }
+
+        [HttpGet("getAllByUserId/{userId}")]
+        public async Task<List<RecordVM>> GetUserRecords(Guid userId)
+        {
+            return await _mediator.Send(new GetUserRecordsQuery
+            {
+                UserId = userId
+            });
         }
     }
 }

@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Records.Core.Domain.ValueObjects
 {
     public class User
     {
-        public Guid UserId { get; set; }
+        public Guid UserId { get => Guid.Parse("F9168C5E-CEB2-4faa-B6BF-329BF39FA1E4"); }
 
         public byte[] CryptoKey { get; set; }
     }
